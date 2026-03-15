@@ -3,6 +3,7 @@ Several Shell functions to manage streams and watch files
 
 - `readlines  $CALLBACK`
 - `watchfiles $CALLBACK $DIR`
+- `quote $STR`
 
 ## Possible improvments
 
