@@ -1,5 +1,5 @@
 #!/usr/bin/bash
 
-function escape() {
+function quote() {
   jq -Rs . <<< "$1"
 }
