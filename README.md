@@ -1,6 +1,7 @@
 # StreamLib
 Several Shell functions to manage streams and watch files
 
+- `readlines  $CALLBACK`
 - `watchfiles $CALLBACK $DIR`
 
 ## Possible improvments
