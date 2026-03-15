@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+DIR=$(dirname "$0")
+source "$DIR/process_records"
+
+# Usage: watchfiles CALLBACK DIRECTORY
+function watchfiles() {
+
+  local CALLBACK="$1"
+  local FILES="$2"
+  local OUT_FORMAT=$'%T${FS}%w${FS}%e{FS}%f${RS}' # TIME WATCHED EVENTS FILE
+  local ISO_FORMAT='%FT%H:%M:%S.%9N%:z'           # 2000-01-01T01:01:01.000000000+01:00
+
+  # --exclude $PATTERN
+  # --include $PATTERN
+
+  inotifywait -q --monitor -r "$FILES" --format  "$OUT_FORMAT" --timefmt "$ISO_FORMAT" --no-newline \
+    | process_records "$CALLBACK" "$RS" "$FS"
+}
