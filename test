@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+source ./import
+
+import "watchfiles"
+import "read/read_jsonline"
+
+watchfiles ../foo | while read_jsonline events ; do
+	echo "$EVENTS"
+done

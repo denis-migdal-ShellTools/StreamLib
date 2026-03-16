@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+function readline() {
+	IFS="" read -r -d $'\n' -a "$1"
+}

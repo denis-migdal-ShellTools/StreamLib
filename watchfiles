@@ -1,19 +1,35 @@
 #!/usr/bin/bash
 
-DIR=$(dirname "$0")
-source "$DIR/process_records"
+# We use an h4ck to ensure proper parsing
+import "read/read_record"
 
-# Usage: watchfiles CALLBACK DIRECTORY
+# Usage: watchfiles FILES[...]
 function watchfiles() {
 
-  local CALLBACK="$1"
-  local FILES="$2"
-  local OUT_FORMAT="%T${FS}%w${FS}%e${FS}%f${RS}" # TIME WATCHED EVENTS FILE
-  local ISO_FORMAT='%FT%H:%M:%S%Z'                # 2000-01-01T01:01:01+01:00
+	declare FILES="$@"
+	declare ISO_FORMAT='%FT%H:%M:%S%Z'                # 2000-01-01T01:01:01+01:00
 
-  # --exclude $PATTERN
-  # --include $PATTERN
+	# we use an h4ck to ensure proper parsing.
+ 	declare OUT_FORMAT="%T${FS}%w${FS}%e${FS}%f${RS}" # TIME WATCHED EVENTS FILE
 
-  inotifywait -q --monitor -r "$FILES" --format  "$OUT_FORMAT" --timefmt "$ISO_FORMAT" --no-newline \
-    | process_records "$CALLBACK" "$RS" "$FS"
+ 	# --exclude $PATTERN
+ 	# --include $PATTERN
+
+	declare COMPAT=""
+	if [[ ! -t 1 ]] ; then
+		COMPACT="-c"
+	fi
+
+ 	inotifywait -q --monitor -r "$FILES" --format  "$OUT_FORMAT" --timefmt "$ISO_FORMAT" --no-newline \
+    		| while read_record RECORD ; do
+			# -n    : ne pas lire l'input
+			# -c	: compact
+			# --arg : ajouter un argument (utilisable dans l'output)
+			jq -n $COMPACT \
+				--arg watched	"${RECORD[0]}" \
+				--arg time	"${RECORD[1]}" \
+				--arg events	"${RECORD[2]}" \
+				--arg file	"${RECORD[3]}" \
+				'{watched:$watched, time:$time, events:$events, file:$file}'
+		done
 }

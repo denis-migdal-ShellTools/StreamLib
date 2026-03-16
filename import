@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+function import() {
+	declare -r DIR=$( dirname "${BASH_SOURCE[0]}" )
+	source "$DIR/$1"
+}

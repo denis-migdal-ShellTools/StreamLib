@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+function json_extract() {
+	declare LINE="$1"
+	shift
+
+	# not ideal, but the safest for now
+	for NAME in "$@"; do
+		# -r = raw output
+		declare -g "${NAME^^}"=$(jq -r ".$NAME" <<< "$LINE")
+	done
+}

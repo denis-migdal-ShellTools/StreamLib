@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+# We use special caracters to be able to properly parse.
+
+RS=$'\x1E' # Record Separator
+FS=$'\x1F' # Field  Separator
+
+function read_record() {
+	IFS="$FS" read -r -d "$RS" -a "$1"
+}

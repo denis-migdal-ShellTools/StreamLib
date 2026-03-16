@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+import "read/readline"
+import "json/json_extract"
+
+function read_jsonline() {
+	declare LINE
+
+	readline LINE
+	json_extract "$LINE" "$@"
+}
