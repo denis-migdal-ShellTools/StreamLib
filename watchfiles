@@ -2,6 +2,7 @@
 
 # We use an h4ck to ensure proper parsing
 import "read/read_record"
+import "json/write_jsonline"
 
 # Usage: watchfiles FILES[...]
 function watchfiles() {
@@ -22,14 +23,9 @@ function watchfiles() {
 
  	inotifywait -q --monitor -r "$FILES" --format  "$OUT_FORMAT" --timefmt "$ISO_FORMAT" --no-newline \
     		| while read_record RECORD ; do
-			# -n    : ne pas lire l'input
-			# -c	: compact
-			# --arg : ajouter un argument (utilisable dans l'output)
-			jq -n $COMPACT \
-				--arg watched	"${RECORD[0]}" \
-				--arg time	"${RECORD[1]}" \
-				--arg events	"${RECORD[2]}" \
-				--arg file	"${RECORD[3]}" \
-				'{watched:$watched, time:$time, events:$events, file:$file}'
+			write_jsonline	watched="${RECORD[0]}" \
+					   time="${RECORD[1]}" \
+					 events="${RECORD[2]}" \
+					   file="${RECORD[3]}"
 		done
 }

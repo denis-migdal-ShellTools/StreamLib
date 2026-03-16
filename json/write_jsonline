@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+function write_jsonline() {
+	# compact the output if stdout is redirected to a pipe
+    	declare COMPAT=""
+        if [[ ! -t 1 ]] ; then
+                COMPACT="-c"
+        fi
+
+	declare ENTRY
+	declare KEY
+	declare VALUE
+
+	declare OUTPUT=""
+	declare -a CMD=()
+
+	for ENTRY in "$@" ; do
+		ENTRY="$ENTRY"$'\n' # cut requires a line
+		KEY=$(  cut -d '=' -f1 <<< "$ENTRY")
+		VALUE=$(cut -d '=' -f2- <<< "$ENTRY")
+
+		if [[ "$OUTPUT" != "" ]] ; then
+			OUTPUT="$OUTPUT, "
+		fi
+		CMD+=("--arg" "${KEY}" "$VALUE")
+		OUTPUT="${OUTPUT}${KEY}:\$${KEY}"
+	done
+
+	OUTPUT="{${OUTPUT}}"
+
+        # -n    : ne pas lire l'input
+        # -c    : compact
+        # --arg : ajouter un argument (utilisable dans l'output)
+        jq -n $COMPACT "${CMD[@]}" "${OUTPUT}"
+}

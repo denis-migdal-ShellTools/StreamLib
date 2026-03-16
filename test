@@ -5,6 +5,10 @@ source ./import
 import "watchfiles"
 import "json/read_jsonline"
 
-watchfiles ../foo | while read_jsonline events ; do
-	echo "$EVENTS"
-done
+#import "json/write_jsonline"
+#write_jsonline a=2 b="3 2"
+
+watchfiles ../foo \
+	| while read_jsonline events ; do
+		echo "$EVENTS"
+	done
