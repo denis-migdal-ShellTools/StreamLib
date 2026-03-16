@@ -3,7 +3,7 @@
 source ./import
 
 import "watchfiles"
-import "read/read_jsonline"
+import "json/read_jsonline"
 
 watchfiles ../foo | while read_jsonline events ; do
 	echo "$EVENTS"

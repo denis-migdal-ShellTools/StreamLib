@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-function readline() {
+function read_args() {
 	declare EDITOR=""
 	declare VARNAME="$1"
 	shift
@@ -10,6 +10,5 @@ function readline() {
 		EDITOR="-e"
 	fi
 
-	# IFS="" -r -d $'\n' : lire la ligne sans rien interpréter.
-	IFS="" read -r $EDITOR -d $'\n' "$VARNAME" "$@"
+	read $EDITOR -a "$VARNAME" "$@"
 }

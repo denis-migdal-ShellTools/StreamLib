@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+function readline() {
+	declare VARNAME="$1"
+	shift
+
+	# -N 1 : ne lire qu'un seul caractère.
+	# IFS="" -r -d '' : ne rien interpréter.
+	IFS="" read -r -d '' -N 1 "$VARNAME" "$@"
+}
