@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
 function readline() {
-	IFS="" read -r -d $'\n' -a "$1"
+	declare EDITOR=""
+	if [[ -t 0 ]] ; then
+		EDITOR="-e"
+	fi
+	IFS="" read -r $EDITOR -d $'\n' -a "$1"
 }
