@@ -1,12 +1,22 @@
 #!/usr/bin/bash
 
 function json_extract() {
+
 	declare LINE="$1"
-	shift
+
+	declare -g -A "$2"
+	declare -n RESULT="$2"
+
+	declare VALUE
+
+	#declare NAMES="$@"
+	declare NAMES=$(jq -r 'keys[]' <<< "$LINE")
 
 	# not ideal, but the safest for now
-	for NAME in "$@"; do
+	for NAME in $NAMES; do
 		# -r = raw output
-		declare -g "${NAME^^}"=$(jq -r ".$NAME" <<< "$LINE")
+		VALUE=$(jq -r ".$NAME" <<< "$LINE")
+		RESULT["$NAME"]="$VALUE"
+		#declare -g "${NAME^^}"="$VALUE"
 	done
 }

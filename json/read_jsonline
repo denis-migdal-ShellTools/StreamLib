@@ -4,8 +4,7 @@ import "read/readline"
 import "json/json_extract"
 
 function read_jsonline() {
-	declare LINE
 
 	readline LINE
-	json_extract "$LINE" "$@"
+	json_extract "$LINE" "$1"
 }

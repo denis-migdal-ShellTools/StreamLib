@@ -11,8 +11,9 @@ Several Shell functions to manage streams and watch files
 
 ## JSON
 
-- `read_jsonline $VAR[...]`
-- `json_extract $JSON $VAR[...]`
+- `read_jsonline $MAP`
+- `write_jsonline key=value[...]`
+- `json_extract $JSON $MAP`
 
 ## Others
 

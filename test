@@ -9,6 +9,6 @@ import "json/read_jsonline"
 #write_jsonline a=2 b="3 2"
 
 watchfiles ../foo \
-	| while read_jsonline events ; do
-		echo "$EVENTS"
+	| while read_jsonline line ; do
+		echo "${line['events']}"
 	done
