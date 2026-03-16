@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
 function readline() {
-	declare EDITOR=""
 	declare VARNAME="$1"
 	shift
 
 	# si stdin est le terminal, permettre l'édition de la ligne.
+	declare EDITOR=""
 	if [[ -t 0 ]] ; then
 		EDITOR="-e"
 	fi
